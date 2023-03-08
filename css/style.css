@@ -1,0 +1,322 @@
+/* Google font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500,700;1,300&display=swap');
+/* Variable reusable css properties */
+
+:root{
+    --header-height:3rem;
+    --font-semi:500;
+    --font-bold:700;
+}
+
+/* Css reusable colors for our project*/
+
+:root{
+    --pri-color:purple;
+    --pri-hover:rgb(194, 47, 194);
+    --sec-color:rgb(184, 154, 184);
+    --sec-hover:rgb(194, 47, 194);
+    --white-color:#fafafa;
+    --dark-color:#101010;
+    --dark-color-light:#606060;
+    --gray-color:#f0f1f3;
+
+}
+
+/* Fonts and typography */
+:root{
+    --body-font:poppins, sans-serif;
+    --big-font-size:3rem;
+    --h1-font-size:1.5rem;
+    --h2-font-size:1.3rem;
+    --normal-font-size:.938rem;
+    --small-font-size:.75rem;
+}
+@media screen and (min-width:768px){
+    :root{
+        --big-font-size:6rem;
+        --h1-font-size:2.25rem;
+        --h2-font-size:1.5rem;
+        --normal-font-size:1rem;
+        --small-font-size:.8rem;
+    }
+}
+
+/* Margins */
+:root{
+    --mb-1:.5rem;
+    --mb-2:1rem;
+    --mb-3:1.5rem;
+    --mb-4:2rem;
+}
+
+/* Z-index and you know why it is used for right 😎  (properly stacking one element over other) */
+:root{
+    --z-tooltip:10;
+    --z-fixed:100;
+}
+
+
+/* Base */
+*,::before,::after{
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior:smooth;
+}
+body{
+    margin:0 0 0 0;
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+h1, h2, p{
+    margin: 0;
+}
+ul{
+    margin: 0;
+    padding: 0;
+    list-style:none;
+}
+a{
+    text-decoration: none;
+    color: var(--dark-color);
+}
+img{
+    max-width: 100%;
+    height:auto;
+
+}
+td{
+   word-wrap: break-word;min-width: 0px;max-width: calc(100vw-160px);
+}
+
+/* Class CSS */
+.section{
+    padding:3rem 0;
+
+}
+
+.section-title{
+    font-size:var(--h2-font-size);
+    color:var(--dark-color);
+    margin: var(--mb-4) 0  var(--mb-1);
+    text-align:center;
+}
+
+.section-all{
+    display:block;
+    font-size: var(--small-font-size);
+    font-weight:var(--font-semi);
+    color:var(--dark-color-light);
+    text-align: center;
+    margin-bottom:var(--mb-2);
+
+}
+
+
+/* Layout */
+.bd-grid{
+    /* max-width:1024px; */
+    display:grid;
+    grid-template-columns: 100%;
+    grid-column-gap:2rem;
+    width:calc(100% - 3rem);
+    margin-left:var(--mb-3);
+    margin-right:var(--mb-3);
+
+}
+
+/* Header */
+.pri-header{
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: var(--gray-color);
+
+}
+
+.nav{
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media screen and (max-width: 768px){
+    .nav__menu{
+        position: fixed;
+        top: var(--header-height);
+        right: -100%;
+        width: 80%;
+        height: 100%;
+        padding: 2rem;
+        background-color: var(--white-color);
+        transition: .5s;
+    }
+
+    /* NO MORE TABLE HIDDEN*/
+    .no-more-tables table, 
+	.no-more-tables thead, 
+	.no-more-tables tbody, 
+	.no-more-tables th, 
+	.no-more-tables td, 
+	.no-more-tables tr { 
+		display: block; 
+	}
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+	.no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	.no-more-tables tr { border: 1px solid #ccc; }
+ 
+	.no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+        padding-left: 20%;
+	}
+ 
+	.no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+
+    .no-more-tables td:before { content: attr(data-title); }
+    /* NO MORE TABLE HIDDEN END*/
+}
+
+.nav__item{
+    margin-bottom: var(--mb-4);
+}
+.nav_links{
+    color: var(--dark-color);
+    font-weight: var(--font-semi);
+}
+.nav__links:hover{
+    color: var(--pri-hover);
+}
+.nav__logo{
+    font-weight:var(--font-bold);
+}
+.nav__cart{
+    font-size: 1.5rem;
+    margin-right: var(--mb-2);
+}
+.nav__toggle{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.show{
+    right: 0%;
+}
+.active{
+    color:var(--pri-color);
+}
+
+
+h1, h2, h3{
+    color: var(--pri-color);
+    font-weight: var(--font-bold);
+}
+.secondary{
+    color: var(--sec-color);
+}
+
+
+/* Home */
+.home{
+    background-color: var(--white-color);
+}
+.home__container{
+    height: calc(100vh - var(--header-height));
+}
+.home__data{
+    padding-top: 2rem;
+}
+.home__title{
+    align-self: center;
+    font-size: var(--big-font-size);
+    line-height: 1.2;
+    letter-spacing: .5rem;
+    margin-bottom: 4rem;
+}
+.home__title span{
+    font-size: var(--h1-font-size);
+    display: inline-block;
+    margin-top: 1rem;
+}
+.home__img{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 260px;
+}
+.button{
+    display: inline-block;
+    background-color: var(--pri-color);
+    color: var(--white-color);
+    padding: 1rem;
+    /* font-size: var(--small-font-size); */
+    
+    /* font-weight: var(--font-semi); */
+    border-radius: 10px 20px;
+}
+.button:hover{
+    background-color: var(--pri-hover);
+}
+
+@media screen and (min-width: 769px){
+    .section-all{
+        margin-bottom: var(--mb-4);
+    }
+    .nav{
+        height:calc(var(--header-height));
+    }
+    .nav__menu{
+        margin-left: auto;
+    }
+    .nav__list{
+        display: flex;
+    }
+    .nav__item{
+        margin-left: var(--mb-4);
+        margin-bottom: 0;
+    }
+    .nav__toggle{
+        display: none;
+    }
+    .home__container{
+        height: 100vh;
+    }
+    .home__data{
+        padding: 0;
+        height: max-content;
+        /* align-self: center; */
+    }
+    .home__title{
+        line-height: .8;
+        letter-spacing: 1.5rem;
+    }
+    .home__img{
+        width: 370px;
+    }
+}
