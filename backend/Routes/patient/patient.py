@@ -1,43 +1,72 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  
-from flask_sqlalchemy import SQLAlchemy
 from pymongo import MongoClient
+# from flask_pymongo import PyMongo
 
 app = Flask(__name__)
+CORS(app)
 
-class Patient(db.Model):
-    ## This is the table name in the database that we need to replace later
-    __tablename__ = 'patient'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    age = db.Column(db.Integer)
+# client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/test") # replace this with your MongoDB URI
+# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0")
+# db = client["esdtcm"] # replace this with the name of your MongoDB database
+# collection = db["patient"] # create a collection in the database to store patient records
 
-    def __init__(self, patientID, name, allergies,phoneNumber,email):
-        self.patientID = patientID
-        self.name = name
+
+# class Patient:
+#     def __init__(self, _id, name, username, allergies, phoneNumber, email):
+#         self._id = _id
+#         self.username = username
+# client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority")
+# app.config["Mongo_URI"] = "mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority"
+# db = client["IS213Database"] # replace this with the name of your MongoDB database
+# collection = db["patient"] # create a collection in the database to store patient records
+# mongodb_client = PyMongo(app)
+# db = mongodb_client.db
+# collection = db.patient
+# app.config["MONGO_URI"] = "mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority"
+# app.config["MONGO_URI"] = "mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority"
+# app.config["MONGO_URI"] = "mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/test"
+# mongo = PyMongo(app)
+# db = mongo.db
+# collection = db.patient
+
+
+client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority")
+db = client["IS213Database"] # replace this with the name of your MongoDB database
+collection = db.patient
+
+
+
+class Patient:
+    def __init__(self, _id, username, patientName, allergies, phoneNumber, email):
+        self._id = _id
+        self.username = username
+        self.patientName = patientName
         self.allergies = allergies
         self.phoneNumber = phoneNumber
         self.email = email
 
-    def __repr__(self):
-        return '<Patient %r>' % self.name
-    
-
-    def json(self):
-        return {"patientID": self.patientID, "name": self.name, "allergies": self.allergies, "phoneNumber": self.phoneNumber, "email": self.email}
+    def to_dict(self):
+        return {
+            "_id": str(self._id),
+            "username": self.username,
+            "patientName": self.patientName,
+            "allergies": self.allergies,
+            "phoneNumber": self.phoneNumber,
+            "email": self.email
+        }
 
 
 @app.route("/patient")
 def get_all():
+    patient_list = []
+    for patient in collection.find():
+        patient_list.append(Patient(**patient).to_dict())
 
-    patientlist = Patient.query.all()
-
-    if(len(patientlist)):
+    if len(patient_list):
         return jsonify({
             "code": 200,
-            "data": {
-                "patient": [patient.json() for patient in patientlist]
-            }
+            "data": {"patient": patient_list}
         })
 
     return jsonify({
@@ -46,18 +75,19 @@ def get_all():
     }), 404
 
 
-@app.route("/patient/<string:patientID>")
-def find_by_patientID(patientID):
-    patient = Patient.query.filter_by(patientID=patientID).first()
+@app.route("/patient/<string:username>")
+def find_by_patientID(username):
+    patient = collection.find_one({"username": username})
     if patient:
         return jsonify({
             "code": 200,
-            "data": patient.json()
+            "data": Patient(**patient).to_dict()
         })
     return jsonify({
         "code": 404,
         "message": "Patient not found."
     }), 404
+
 
 @app.route("/patient", methods=['POST'])
 def create_patient():
@@ -65,33 +95,32 @@ def create_patient():
     patient = Patient(**data)
 
     try:
-        db.session.add(patient)
-        db.session.commit()
+        collection.insert_one(patient.to_dict())
     except:
         return jsonify({
             "code": 500,
-            "data": {
-                "patientID": patient.patientID
-            },
+            "data": {"username": patient.username},
             "message": "An error occurred creating the patient."
         }), 500
 
     return jsonify({
         "code": 201,
-        "data": patient.json()
+        "data": patient.to_dict()
     }), 201
 
-@app.route("/patient/<string:patientID>", methods=['PUT'])
-def update_patient(patientID):
-    patient = Patient.query.filter_by(patientID=patientID).first()
+
+
+@app.route("/patient/<string:username>", methods=['PUT'])
+def update_patient(username):
+    patient = collection.find_one({"username": username})
     if patient:
         data = request.get_json()
         for key, item in data.items():
-            setattr(patient, key, item)
-        db.session.commit()
+            patient[key] = item
+        collection.replace_one({"username": username}, patient)
         return jsonify({
             "code": 200,
-            "data": patient.json()
+            "data": Patient(**patient).to_dict()
         })
     return jsonify({
         "code": 404,
@@ -100,5 +129,4 @@ def update_patient(patientID):
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
-
+    app.run(port=5001, debug=True)
