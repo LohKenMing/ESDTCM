@@ -1,12 +1,21 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  
 from pymongo import MongoClient
-from flask_pymongo import PyMongo
+# from flask_pymongo import PyMongo
 
 app = Flask(__name__)
 CORS(app)
 
 # client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/test") # replace this with your MongoDB URI
+# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0")
+# db = client["esdtcm"] # replace this with the name of your MongoDB database
+# collection = db["patient"] # create a collection in the database to store patient records
+
+
+# class Patient:
+#     def __init__(self, _id, name, username, allergies, phoneNumber, email):
+#         self._id = _id
+#         self.username = username
 # client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority")
 # app.config["Mongo_URI"] = "mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority"
 # db = client["IS213Database"] # replace this with the name of your MongoDB database
