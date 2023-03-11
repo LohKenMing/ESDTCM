@@ -1,7 +1,7 @@
 const showMenu = (toggleId, navId) => {
     const toggle = document.getElementById(toggleId);
     const nav = document.getElementById(navId);
-    console.log(toggle, nav)
+    // console.log(toggle, nav)
     if(toggle && nav){
         toggle.addEventListener('click', ()=>{
             nav.classList.toggle('show');
