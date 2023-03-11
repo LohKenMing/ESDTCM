@@ -6,9 +6,13 @@ app = Flask(__name__)
 CORS(app)
 
 # client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/test") # replace this with your MongoDB URI
-client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0")
-db = client["esdtcm"] # replace this with the name of your MongoDB database
-collection = db["dispensary"] # create a collection in the database to store patient records
+# client = MongoClient("mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.8.0")
+# db = client["esdtcm"] # replace this with the name of your MongoDB database
+# collection = db["dispensary"] # create a collection in the database to store patient records
+
+client = MongoClient("mongodb+srv://IS213:BvC5v1TtmRrA9sxD@is213project.obuxewm.mongodb.net/?retryWrites=true&w=majority")
+db = client["IS213Database"] # replace this with the name of your MongoDB database
+collection = db.dispensary
 
 
 class Dispensary:
