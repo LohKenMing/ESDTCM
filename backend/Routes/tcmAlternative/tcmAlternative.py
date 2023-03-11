@@ -45,7 +45,7 @@ def get_all():
 
 
 @app.route("/tcmalternative/<string:tcmalternativeID>")
-def find_by_dispensaryID(tcmalternativeID):
+def find_by_tcmalternativeID(tcmalternativeID):
     tcmalternative = collection.find_one({"tcmalternativeID": tcmalternativeID})
     if tcmalternative:
         return jsonify({
