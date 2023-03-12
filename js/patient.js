@@ -1,15 +1,15 @@
-// import axios from 'axios';
+const DOCTOR_URL = 'http://127.0.0.1:5001/doctor';
 const PATIENT_URL = 'http://127.0.0.1:5001/patient';
-const SESSION_URL = 'http://127.0.0.1:5001/patient';
 
 const app = Vue.createApp({ 
     data() { 
         return { 
             patients: [],
+            doctors: [],
         };
     }, 
     mounted() {
-        axios.get('http://127.0.0.1:5001/patient')
+        axios.get(PATIENT_URL)
           .then(response => {
             this.patients = response.data.data.patient;
             console.log(this.patients)
@@ -18,6 +18,15 @@ const app = Vue.createApp({
           .catch(error => {
             console.log(error);
           });
+
+        axios.get(DOCTOR_URL)
+        .then(response => {
+        this.doctors = response.data.data.doctor;
+        console.log(this.doctors)
+        })
+        .catch(error => {
+        console.log(error);
+        });
     },
 });
 
@@ -28,7 +37,7 @@ app.component('patientinfo', {
         <thead>
             <tr>
                 <th scope='col-1'>ID</th>
-                <th postscope='col'>Name</th>
+                <th scope='col'>Name</th>
                 <th scope='col'>Email</th>
                 <th scope='col'>Phone</th>
                 <th scope='col'>Allergies</th>
@@ -72,6 +81,28 @@ app.component('pastsession', {
                 <th scope='row'></th>
                 <td></td>
                 <td></td>
+            </tr>
+        </tbody>
+    </table>
+    `
+});
+
+app.component('doctorinfo', { 
+    props: ['doctors'],
+    template: `
+    <table class='table table-white table-hover table-bordered no-more-tables'>
+        <thead>
+            <tr>
+                <th scope='col-1'>ID</th>
+                <th scope='col'>Name</th>
+                <th scope='col'>Practice</th>
+            </tr>
+        </thead>
+        <tbody class='table-group-divider'>
+            <tr v-for="doctor in doctors">
+                <td data-title="ID">{{ doctor._id }}</td>
+                <td data-title="Name">{{ doctor.name }}</td>
+                <td data-title="Practice">{{ doctor.practice }}</td>
             </tr>
         </tbody>
     </table>
