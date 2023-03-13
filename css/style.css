@@ -1,6 +1,8 @@
 /* Google font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500,700;1,300&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500,700;1,300&display=swap'); */
 /* Variable reusable css properties */
+
+
 
 :root{
     --header-height:3rem;
@@ -19,6 +21,7 @@
     --dark-color:#101010;
     --dark-color-light:#606060;
     --gray-color:#f0f1f3;
+    --box-min: 70px;
 
 }
 
@@ -239,6 +242,54 @@ h1, h2, h3{
 }
 .secondary{
     color: var(--sec-color);
+}
+
+.box {
+    /* position: relative; */
+    min-height: var(--box-min);
+    min-width: var(--box-min);
+    /* width: calc(attr(height) * 1px); */
+    max-width: 150px;
+}
+
+
+
+.black-bg {
+    background-color: rgba(7,18,34,1);
+}
+
+.black-bg h2, .bg-success h2{
+    color: white;
+}
+
+.change-section {
+    color: #fff;
+    text-decoration: none;
+}
+
+.change-section .black-bg {
+    transition: all 0.4s ease;
+}
+
+.change-section .black-bg > h2 {
+    transition: all 0.4s ease;
+}
+
+.change-section:hover {
+    text-decoration: none;
+    color: #246BB2;
+}
+
+.change-section:hover .black-bg {
+    background-color: rgba(255,255,255,0.8);
+}
+
+.change-section:hover .black-bg > h2 {
+    color: #246BB2;
+}
+
+.fa-laptop:before {
+    content: "\f109";
 }
 
 
